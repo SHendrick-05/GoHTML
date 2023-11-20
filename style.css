@@ -1,0 +1,72 @@
+.goButton
+{
+	border: none;
+	height:50px;
+	width: 50px;
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+
+.titleanim
+{
+	width: 100px;
+	height:5px;
+	background: red;
+	position: relative;
+	animation: anim 2s infinite;
+	animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.row
+{
+	padding: 0px 0px;
+	margin:  -4px 0px;
+}
+
+.center
+{
+	text-align: center;
+}
+
+.resetButton
+{
+	background-color:#1f2229;
+	border-style:solid;
+	border-color:red;
+	font-size:20px;
+	font-family:tahoma;
+	color:white;
+	transition-duration:0.4s;
+	text-align:center;
+}
+
+@keyframes anim
+{
+	0% {left: calc(0%); background: red;}
+	50% {left: calc(100% - 100px); background: blue;}
+	100% {left: calc(0%); background: red;}
+}
+
+h1
+{
+	margin: auto;
+	width: 50%;
+	color: white;
+	text-align: center;
+	font-family: tahoma;
+	font-size: 300%;
+	border: 3px black;
+	padding: 10px;
+}
+
+img
+{
+	position: absolute;
+	margin: -25px -25px;
+	padding: 0px 0px;
+}
+
+body
+{
+	background-color: #292C33;
+}

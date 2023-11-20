@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Go</title>
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+<br>
+<div id="upper" class="titleanim"></div>
+<br>
+<h1>The game of Go</h1>
+<br>
+<div id="lower" class="titleanim"></div>
+<br>
+
+<div class="center" id="board">
+<div class="row" id="0"/>
+<div class="row" id="1"/>
+<div class="row" id="2"/>
+<div class="row" id="3"/>
+<div class="row" id="4"/>
+<div class="row" id="5"/>
+<div class="row" id="6"/>
+<div class="row" id="7"/>
+<div class="row" id="8"/>
+</div>
+
+<script src="gameHandler.js"></script>
+<script>
+
+function initBoard()
+{
+	for(i = 0; i < 9; i++) {
+		for(j = 0; j < 9; j++) {
+			let btn = createButton(i.toString());
+			btn.id = i.toString() + j.toString();
+			if (i == 0)
+			{
+				if (j == 0) {
+					addImage(btn, "6");
+				}
+				else if (j == 8) {
+					addImage(btn, "9");
+				}
+				else {
+					addImage(btn, "3");
+				}
+			}
+			else if (i == 8) {
+				if (j == 0) {
+					addImage(btn, "7");
+				}
+				else if (j == 8) {
+					addImage(btn, "8");
+				}
+				else {
+					addImage(btn, "2");
+				}
+			}
+			else {
+				if (j == 0) {
+					addImage(btn, "5");
+				}
+				else if (j == 8) {
+					addImage(btn, "4");
+				}
+				else {
+					addImage(btn, "1");
+				}
+			}
+			
+			pcImg = addImage(btn, "white", false);
+			pcImg.id = "piece";
+			pcImg.style = "opacity:0;";
+			
+		}
+	}
+	
+	
+	
+	init();
+}
+
+
+
+
+function addImage(button, imageID, bg=true)
+{
+	if(bg)
+	{
+		button.style = "background: url('images/"+imageID+".png') no-repeat;";
+	}
+	else
+	{
+	var im = document.createElement("img");
+	im.src = "images\\" + imageID + ".png";
+	im.alt = "boardPiece";
+	button.appendChild(im);
+	return im;
+	}
+}
+
+function createButton(row)
+{
+	var button = document.createElement("button");
+	button.className = "goButton";
+	button.onclick = function() { buttonClick(this) };
+	var buttonDiv = document.getElementById(row);
+	buttonDiv.appendChild(button);
+	return button;
+}
+
+function buttonClick(btn)
+{
+	let XY = btn.id;
+	let X = parseInt(XY.charAt(0));
+	let Y = parseInt(XY.charAt(1));
+	
+	if (board[X][Y] != 0)
+	{
+		return;
+	}
+		
+	if (isBlackTurn)
+	{
+		Place(1, X, Y);
+	}
+	else{
+		Place(2, X, Y);
+	}
+	updateBoard();
+}
+
+function updateBoard()
+{
+	for (i = 0; i < 9; i++)
+	{
+		for (j = 0; j < 9; j++)
+		{
+			var btn = document.getElementById(i.toString() + j.toString());
+			var img = btn.children[0];
+			if (board[i][j] == 0)
+			{
+				img.style = "opacity:0;";
+			}
+			else if(board[i][j] == 1)
+			{
+				img.style = "opacity:1;";
+				img.src = "images\\black.png";
+			}
+			else
+			{
+				img.style = "opacity:1;";
+				img.src = "images\\white.png";
+			}
+		}
+	}
+}
+
+document.body.addEventListener("load", initBoard());
+</script>
+<br>
+
+<!--<div>
+<button class="resetButton">Reset</button>
+</div>!-->
+
+<script>
+
+</script>
+
+
+</body>
+
+</html>
