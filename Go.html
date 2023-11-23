@@ -18,55 +18,56 @@
 <div id="lower" class="titleanim"></div>
 <br>
 
-<div class="center" id="board">
-<div class="row" id="0"/>
-<div class="row" id="1"/>
-<div class="row" id="2"/>
-<div class="row" id="3"/>
-<div class="row" id="4"/>
-<div class="row" id="5"/>
-<div class="row" id="6"/>
-<div class="row" id="7"/>
-<div class="row" id="8"/>
+<div class="resetDiv">
+<button class="resetButton" onclick="resetBoard()">Reset</button>
 </div>
+
+<div class="container">
+<div class="goBoard" id="board">
+</div></div>
 
 <script src="gameHandler.js"></script>
 <script>
 
 function initBoard()
 {
-	for(i = 0; i < 9; i++) {
-		for(j = 0; j < 9; j++) {
+	boardSize = 19;
+	
+	
+	for(i = 0; i < boardSize; i++) {
+		let row = createRow(i.toString());
+		for(j = 0; j < boardSize; j++) {
 			let btn = createButton(i.toString());
-			btn.id = i.toString() + j.toString();
+			row.appendChild(btn);
+			btn.id = i.toString() + "," + j.toString();
 			if (i == 0)
 			{
 				if (j == 0) {
-					addImage(btn, "6");
-				}
-				else if (j == 8) {
-					addImage(btn, "9");
-				}
-				else {
-					addImage(btn, "3");
-				}
-			}
-			else if (i == 8) {
-				if (j == 0) {
 					addImage(btn, "7");
 				}
-				else if (j == 8) {
+				else if (j == boardSize-1) {
 					addImage(btn, "8");
 				}
 				else {
 					addImage(btn, "2");
 				}
 			}
+			else if (i == boardSize-1) {
+				if (j == 0) {
+					addImage(btn, "6");
+				}
+				else if (j == boardSize-1) {
+					addImage(btn, "9");
+				}
+				else {
+					addImage(btn, "3");
+				}
+			}
 			else {
 				if (j == 0) {
 					addImage(btn, "5");
 				}
-				else if (j == 8) {
+				else if (j == boardSize-1) {
 					addImage(btn, "4");
 				}
 				else {
@@ -87,7 +88,11 @@ function initBoard()
 }
 
 
-
+function resetBoard()
+{
+	init();
+	updateBoard();
+}
 
 function addImage(button, imageID, bg=true)
 {
@@ -105,21 +110,29 @@ function addImage(button, imageID, bg=true)
 	}
 }
 
+function createRow(id)
+{
+	var row = document.createElement("div");
+	row.className = "row";
+	row.id = id;
+	var board = document.getElementById("board");
+	board.appendChild(row);
+	return row;
+}
+
 function createButton(row)
 {
 	var button = document.createElement("button");
 	button.className = "goButton";
 	button.onclick = function() { buttonClick(this) };
-	var buttonDiv = document.getElementById(row);
-	buttonDiv.appendChild(button);
 	return button;
 }
 
 function buttonClick(btn)
 {
-	let XY = btn.id;
-	let X = parseInt(XY.charAt(0));
-	let Y = parseInt(XY.charAt(1));
+	let XY = btn.id.split(",");
+	let X = parseInt(XY[0]);
+	let Y = parseInt(XY[1]);
 	
 	if (board[X][Y] != 0)
 	{
@@ -138,11 +151,11 @@ function buttonClick(btn)
 
 function updateBoard()
 {
-	for (i = 0; i < 9; i++)
+	for (i = 0; i < boardSize; i++)
 	{
-		for (j = 0; j < 9; j++)
+		for (j = 0; j < boardSize; j++)
 		{
-			var btn = document.getElementById(i.toString() + j.toString());
+			var btn = document.getElementById(i.toString() + "," + j.toString());
 			var img = btn.children[0];
 			if (board[i][j] == 0)
 			{
@@ -164,15 +177,7 @@ function updateBoard()
 
 document.body.addEventListener("load", initBoard());
 </script>
-<br>
 
-<!--<div>
-<button class="resetButton">Reset</button>
-</div>!-->
-
-<script>
-
-</script>
 
 
 </body>
