@@ -7,20 +7,21 @@ var prevState;
 var stateBefore;
 var groups;
 var isBlackTurn;
+var boardSize;
 
 function init()
 {
-	board = new Array(9);
-	prevState = new Array(9);
-	stateBefore = new Array(9);
+	board = new Array(boardSize);
+	prevState = new Array(boardSize);
+	stateBefore = new Array(boardSize);
 	groups = []
 	
-	for(i = 0; i < 9; i++)
+	for(i = 0; i < boardSize; i++)
 	{
-		board[i] = new Array(9);
-		prevState[i] = new Array(9);
-		stateBefore[i] = new Array(9);
-		for(j = 0; j < 9; j++)
+		board[i] = new Array(boardSize);
+		prevState[i] = new Array(boardSize);
+		stateBefore[i] = new Array(boardSize);
+		for(j = 0; j < boardSize; j++)
 		{
 			board[i][j] = 0;
 			prevState[i][j] = 0;
@@ -32,7 +33,7 @@ function init()
 
 function isValidPt(X, Y)
 {
-	return !(X < 0 || X > 8 || Y < 0 || Y > 8);
+	return !(X < 0 || X > boardSize-1 || Y < 0 || Y > boardSize-1);
 }
 
 function containsPt(arr, X, Y)
@@ -70,9 +71,9 @@ function getGroupsFromPt(X, Y)
 	let capture = false;
 	groups = [];
 	let occupiedPoints = [];
-	for(occI = 0; occI < 9; occI++)
+	for(occI = 0; occI < boardSize; occI++)
 	{
-		for(occJ = 0; occJ < 9; occJ++)
+		for(occJ = 0; occJ < boardSize; occJ++)
 		{
 			if (board[occI][occJ] != 0 && !containsPt(occupiedPoints, occI, occJ))
 			{
@@ -104,9 +105,9 @@ function getGroups()
 {
 	groups = [];
 	let occupiedPoints = [];
-	for(i = 0; i < 9; i++)
+	for(i = 0; i < boardSize; i++)
 	{
-		for(j = 0; j < 9; j++)
+		for(j = 0; j < boardSize; j++)
 		{
 			if (board[i][j] != 0 && !containsPt(occupiedPoints, i, j))
 			{
@@ -183,25 +184,6 @@ class Group
 					}
 				}
 			}
-			
-			/*
-			for(expI = 0; expI < expansion.length; expI++)
-			{
-				let newPt = expansion[expI];
-				let neighbours = getNeighbours(newPt[0], newPt[1]);
-				for(nbI = 0; nbI < neighbours.length; nbI++)
-				{
-					let nPt = neighbours[nbI];
-					if (board[nPt[0]][nPt[1]] == this.groupState)
-					{
-						this.members.push(nPt);
-					}
-					else if(board[nPt[0]][nPt[1]] == 0)
-					{
-						this.liberties.push(nPt);
-					}
-				}
-			}*/
 			
 			expansion = [];
 			for(const expPt of this.members)
